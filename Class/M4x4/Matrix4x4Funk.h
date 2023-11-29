@@ -147,6 +147,8 @@ public:
 
 	static Matrix4x4 MakeAxisAngle(Vector3 Axis, float Angle);
 
+	static Matrix4x4 DirectionToDirection(const Vector3& from, const Vector3& to);
+
 	/// 描画関数 ///
 
 	/// <summary>

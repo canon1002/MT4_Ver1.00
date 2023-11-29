@@ -313,6 +313,42 @@ Matrix4x4 Matrix4x4Funk::MakeAxisAngle(Vector3 Axis, float Angle) {
 
 }
 
+Matrix4x4 Matrix4x4Funk::DirectionToDirection(const Vector3& from, const Vector3& to) {
+	Matrix4x4 result = MakeIdentity();
+
+	// クロス積
+	const Vector3 c = {
+		(from.y * to.z) - (from.z * to.y),
+		(from.z * to.x) - (from.x * to.z),
+		(from.x * to.y) - (from.y * to.x)
+	};
+	// 長さ
+	const float cLength = sqrt((c.x * c.x) + (c.y * c.y) + (c.z * c.z));
+
+	Vector3 n;
+	if (from.x == -to.x && from.y == -to.y && from.z == -to.z) {
+		n = { from.y,-from.x,0 };
+	}
+	else {
+		// 正規化
+		n.x = c.x / cLength;
+		n.y = c.y / cLength;
+		n.z = c.z / cLength;
+	}
+
+	// 角度
+	const float cosT = from.x * to.x + from.y * to.y + from.z * to.z;
+	const float sinT = cLength;
+
+	result = {
+		(n.x * n.x) * (1 - cosT) + cosT,        (n.x * n.y) * (1 - cosT) + n.z * sinT,    (n.x * n.z) * (1 - cosT) - n.y * sinT,    0,
+		(n.x * n.y) * (1 - cosT) - n.z * sinT,    (n.y * n.y) * (1 - cosT) + cosT,        (n.y * n.z) * (1 - cosT) + n.x * sinT,    0,
+		(n.x * n.z) * (1 - cosT) + n.y * sinT,    (n.z * n.y) * (1 - cosT) - n.x * sinT,    (n.z * n.z) * (1 - cosT) + cosT,        0,
+		0,                                        0,                                        0,                                        1,
+	};
+
+	return result;
+}
 
 /// 描画関数 ///
 

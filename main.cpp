@@ -15,10 +15,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char keys[256] = {0};
 	char preKeys[256] = {0};
 
-	Vector3 axis = Nomalize({ 1.0f,1.0f,1.0f });
-	float angle = 0.44f;
-	Matrix4x4 rotateMatrix = Matrix4x4Funk::MakeAxisAngle(axis, angle);
-	
+	Vector3 from0 = Nomalize(Vector3{ 1.0f,0.7f,0.5f });
+	Vector3 to0 = Scalar(-1.0f, from0);
+	Vector3 from1 = Nomalize(Vector3{ -0.6f,0.9f,0.2f });
+	Vector3 to1 = Nomalize(Vector3{ 0.4f,0.7f,-0.5f });
+
+	Matrix4x4 rotateMatrix0 = Matrix4x4Funk::DirectionToDirection(
+		Nomalize(Vector3{ 1.0f,0.0f,0.0f }), Nomalize(Vector3{ -1.0f,0.0f,0.0f }));
+	Matrix4x4 rotateMatrix1 = Matrix4x4Funk::DirectionToDirection(from0, to0);
+	Matrix4x4 rotateMatrix2 = Matrix4x4Funk::DirectionToDirection(from1, to1);
 
 
 	// ウィンドウの×ボタンが押されるまでループ
@@ -42,7 +47,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓描画処理ここから
 		///
 
-		Matrix4x4Funk::MatrixScreenPrintf(10, 10, rotateMatrix, "rotateMatrix");
+		Matrix4x4Funk::MatrixScreenPrintf(10, 10, rotateMatrix0, "rotateMatrix");
+		Matrix4x4Funk::MatrixScreenPrintf(10, 160, rotateMatrix1, "rotateMatrix1");
+		Matrix4x4Funk::MatrixScreenPrintf(10, 310, rotateMatrix2, "rotateMatrix2");
 
 		///
 		/// ↑描画処理ここまで
