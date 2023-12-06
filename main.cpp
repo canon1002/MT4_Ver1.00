@@ -1,5 +1,5 @@
 #include <Novice.h>
-
+#include "./Quaternion.h"
 #include"./Class/MathTool.h"
 #include "./Class/M4x4/Matrix4x4Funk.h"
 
@@ -15,16 +15,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char keys[256] = {0};
 	char preKeys[256] = {0};
 
-	Vector3 from0 = Nomalize(Vector3{ 1.0f,0.7f,0.5f });
-	Vector3 to0 = Scalar(-1.0f, from0);
-	Vector3 from1 = Nomalize(Vector3{ -0.6f,0.9f,0.2f });
-	Vector3 to1 = Nomalize(Vector3{ 0.4f,0.7f,-0.5f });
-
-	Matrix4x4 rotateMatrix0 = Matrix4x4Funk::DirectionToDirection(
-		Nomalize(Vector3{ 1.0f,0.0f,0.0f }), Nomalize(Vector3{ -1.0f,0.0f,0.0f }));
-	Matrix4x4 rotateMatrix1 = Matrix4x4Funk::DirectionToDirection(from0, to0);
-	Matrix4x4 rotateMatrix2 = Matrix4x4Funk::DirectionToDirection(from1, to1);
-
+	Quaternion q1 = { 2.0f,3.0f,4.0f,1.0f };
+	Quaternion q2 = { 1.0f,3.0f,5.0f,2.0f };
+	Quaternion identity = IdentityQuaternion();
+	Quaternion conj = Conjugate(q1);
+	Quaternion inv = Inverse(q1);
+	Quaternion normal = Normalize(q1);
+	Quaternion mul1 = Multiply(q1, q2);
+	Quaternion mul2 = Multiply(q2, q1);
+	float norm = Norm(q1);
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -47,10 +46,22 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓描画処理ここから
 		///
 
-		Matrix4x4Funk::MatrixScreenPrintf(10, 10, rotateMatrix0, "rotateMatrix");
-		Matrix4x4Funk::MatrixScreenPrintf(10, 160, rotateMatrix1, "rotateMatrix1");
-		Matrix4x4Funk::MatrixScreenPrintf(10, 310, rotateMatrix2, "rotateMatrix2");
-
+		int y = 10;
+		QuaternionScreenPrintf(10, y,identity, "Identity");
+		y += 20;
+		QuaternionScreenPrintf(10, y,conj, "Conjugate");
+		y += 20;
+		QuaternionScreenPrintf(10, y,inv, "Inverse");
+		y += 20;
+		QuaternionScreenPrintf(10, y,normal, "Normalize");
+		y += 20;
+		QuaternionScreenPrintf(10, y,mul1, "Multiply(q1,q2)");
+		y += 20;
+		QuaternionScreenPrintf(10, y,mul2, "Multiply(q2,q1)");
+		y += 20;
+		Novice::ScreenPrintf(20, y,"%3.2f",norm);
+		Novice::ScreenPrintf(480, y,"Norm");
+	
 		///
 		/// ↑描画処理ここまで
 		///

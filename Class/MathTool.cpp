@@ -593,16 +593,16 @@ void DrawGrid(const Matrix4x4& viewProjection, const Matrix4x4& viewport) {
 		localHeightVer[1] = { kGridEvery * (float(xIndex) - 5), 0.0f, kGridHalfWidth };
 
 		// ndcに変換
-		Vector3 ndcWidthStart = Matrix4x4Funk::Transform(localWidthVer[0], viewProjection);
-		Vector3 ndcWidthEnd = Matrix4x4Funk::Transform(localWidthVer[1], viewProjection);
-		Vector3 ndcHeightStart = Matrix4x4Funk::Transform(localHeightVer[0], viewProjection);
-		Vector3 ndcHeightEnd = Matrix4x4Funk::Transform(localHeightVer[1], viewProjection);
+		Vector3 ndcWidthStart = Transform(localWidthVer[0], viewProjection);
+		Vector3 ndcWidthEnd = Transform(localWidthVer[1], viewProjection);
+		Vector3 ndcHeightStart = Transform(localHeightVer[0], viewProjection);
+		Vector3 ndcHeightEnd = Transform(localHeightVer[1], viewProjection);
 
 		// スクリーン座標系へ変換
-		screenWidthVer[0] = Matrix4x4Funk::Transform(ndcWidthStart, viewport);
-		screenWidthVer[1] = Matrix4x4Funk::Transform(ndcWidthEnd, viewport);
-		screenHeightVer[0] = Matrix4x4Funk::Transform(ndcHeightStart, viewport);
-		screenHeightVer[1] = Matrix4x4Funk::Transform(ndcHeightEnd, viewport);
+		screenWidthVer[0] = Transform(ndcWidthStart, viewport);
+		screenWidthVer[1] = Transform(ndcWidthEnd, viewport);
+		screenHeightVer[0] = Transform(ndcHeightStart, viewport);
+		screenHeightVer[1] = Transform(ndcHeightEnd, viewport);
 
 		// 上の情報を使ってワールド座標系上の始点と終点を求める
 		// スクリーン座標系まで返還をかける
@@ -667,12 +667,12 @@ void DrawSphere(const Sphere& sphere,
 			c.z += sphere.center.z;
 
 			// スクリーン座標系へ変換する
-			a = Matrix4x4Funk::Transform(a, viewProjection);
-			a = Matrix4x4Funk::Transform(a, viewport);
-			b = Matrix4x4Funk::Transform(b, viewProjection);
-			b = Matrix4x4Funk::Transform(b, viewport);
-			c = Matrix4x4Funk::Transform(c, viewProjection);
-			c = Matrix4x4Funk::Transform(c, viewport);
+			a = Transform(a, viewProjection);
+			a = Transform(a, viewport);
+			b = Transform(b, viewProjection);
+			b = Transform(b, viewport);
+			c = Transform(c, viewProjection);
+			c = Transform(c, viewport);
 
 			// ab,bcで線を引く
 			Novice::DrawLine(int(a.x), int(a.y), int(b.x), int(b.y), color);
@@ -705,7 +705,7 @@ void DrawPlane(const Plane& plane,
 	for (int32_t index = 0; index < 4; index++) {
 		Vector3 extend = Scalar(2.0f, perpendiculars[index]);
 		Vector3 point = Add(center, extend);
-		points[index] = Matrix4x4Funk::Transform(Matrix4x4Funk::Transform(point, viewProjection), viewport);
+		points[index] = Transform(Transform(point, viewProjection), viewport);
 	}
 
 	// スクリーン座標系に変換
@@ -729,7 +729,7 @@ void DrawTriangle(const Triangle& triangle,
 	Vector3 screenPos[3] = {};
 
 	for (int i = 0; i < 3; i++) {
-		screenPos[i] = Matrix4x4Funk::Transform(Matrix4x4Funk::Transform(triangle.vertices[i], viewProjection), viewport);
+		screenPos[i] = Transform(Transform(triangle.vertices[i], viewProjection), viewport);
 	}
 
 	Novice::DrawTriangle(
@@ -755,7 +755,7 @@ void DrawAABB(const AABB& aabb,
 	vertices[7] = { aabb.max.x,aabb.min.y,aabb.max.z };
 
 	for (int i = 0; i < 8; i++) {
-		vertices[i] = Matrix4x4Funk::Transform(Matrix4x4Funk::Transform(vertices[i], viewProjection), viewport);
+		vertices[i] = Transform(Transform(vertices[i], viewProjection), viewport);
 	}
 
 	//Novice::DrawLine(vertices[0].x, vertices[0].y, vertices[1].x, vertices[1].y, color);
@@ -797,10 +797,10 @@ void DrawBezier(const Vector3& point0, const Vector3& point1, const Vector3& poi
 		p1p2 = Leap(point1, point2, t);
 		p = Leap(p0p1, p1p2, t);
 
-		Vector3 screenPreP = Matrix4x4Funk::Transform(
-			Matrix4x4Funk::Transform(preP, viewProjection), viewport);
-		Vector3 screenP = Matrix4x4Funk::Transform(
-			Matrix4x4Funk::Transform(p, viewProjection), viewport);
+		Vector3 screenPreP = Transform(
+			Transform(preP, viewProjection), viewport);
+		Vector3 screenP = Transform(
+			Transform(p, viewProjection), viewport);
 
 		// スクリーン座標に変換した値を用いて表示する
 		//Novice::DrawLine(screenP.x, screenP.y,screenPreP.x, screenPreP.y,color);

@@ -40,13 +40,13 @@ void MatrixCamera::Initialize() {
 
 #pragma endregion
 
-	m_worldMatrix = Matrix4x4Funk::MakeAffineMatrix(m_scale, m_rotate, m_translate); 
-	m_cameraMatrix = Matrix4x4Funk::MakeAffineMatrix(m_cameraScale, m_cameraRotate, m_cameraTranslate);
-	m_viewMatrix = Matrix4x4Funk::Inverse(m_cameraMatrix);
-	m_projectionMatrix = Matrix4x4Funk::MakePerspectiveMatrix(m_VerticalFOV, m_aspectRatio, m_nearClip, m_farClip);
-	m_viewprojectionMatrix = Matrix4x4Funk::Multiply(m_viewMatrix, m_projectionMatrix);
-	m_worldViewProjectionMatrix = Matrix4x4Funk::Multiply(m_worldMatrix, m_viewprojectionMatrix);
-	m_viewportMatrix = Matrix4x4Funk::MakeViewportMatrix(0, 0, m_windowSize.x, m_windowSize.y, 0.0f, 1.0f);
+	m_worldMatrix = MakeAffineMatrix(m_scale, m_rotate, m_translate); 
+	m_cameraMatrix = MakeAffineMatrix(m_cameraScale, m_cameraRotate, m_cameraTranslate);
+	m_viewMatrix = Inverse(m_cameraMatrix);
+	m_projectionMatrix = MakePerspectiveMatrix(m_VerticalFOV, m_aspectRatio, m_nearClip, m_farClip);
+	m_viewprojectionMatrix = Multiply(m_viewMatrix, m_projectionMatrix);
+	m_worldViewProjectionMatrix = Multiply(m_worldMatrix, m_viewprojectionMatrix);
+	m_viewportMatrix = MakeViewportMatrix(0, 0, m_windowSize.x, m_windowSize.y, 0.0f, 1.0f);
 
 }
 
@@ -54,20 +54,20 @@ void MatrixCamera::Initialize() {
 
 void MatrixCamera::Update() 
 {
-	m_worldMatrix = Matrix4x4Funk::MakeAffineMatrix(m_scale, m_rotate,m_translate);
-	m_cameraMatrix = Matrix4x4Funk::MakeAffineMatrix(m_cameraScale, m_cameraRotate, m_cameraTranslate);
-	m_viewMatrix = Matrix4x4Funk::Inverse(m_cameraMatrix);
-	m_projectionMatrix = Matrix4x4Funk::MakePerspectiveMatrix(m_VerticalFOV, m_aspectRatio, m_nearClip, m_farClip);
-	m_viewprojectionMatrix = Matrix4x4Funk::Multiply(m_viewMatrix, m_projectionMatrix);
-	m_worldViewProjectionMatrix = Matrix4x4Funk::Multiply(m_worldMatrix, m_viewprojectionMatrix);
-	m_viewportMatrix = Matrix4x4Funk::MakeViewportMatrix(0, 0, m_windowSize.x, m_windowSize.y, 0.0f, 1.0f);
+	m_worldMatrix = MakeAffineMatrix(m_scale, m_rotate,m_translate);
+	m_cameraMatrix = MakeAffineMatrix(m_cameraScale, m_cameraRotate, m_cameraTranslate);
+	m_viewMatrix = Inverse(m_cameraMatrix);
+	m_projectionMatrix = MakePerspectiveMatrix(m_VerticalFOV, m_aspectRatio, m_nearClip, m_farClip);
+	m_viewprojectionMatrix = Multiply(m_viewMatrix, m_projectionMatrix);
+	m_worldViewProjectionMatrix = Multiply(m_worldMatrix, m_viewprojectionMatrix);
+	m_viewportMatrix = MakeViewportMatrix(0, 0, m_windowSize.x, m_windowSize.y, 0.0f, 1.0f);
 }
 
 
 Vector3 MatrixCamera::GetNdcPos(Vector3 local)
 {
 	// ローカルからNDC座標系に変換
-	Vector3 ndc = Matrix4x4Funk::Transform(local, m_worldViewProjectionMatrix);
+	Vector3 ndc = Transform(local, m_worldViewProjectionMatrix);
 	
 	return ndc;
 }
@@ -75,7 +75,7 @@ Vector3 MatrixCamera::GetNdcPos(Vector3 local)
 Vector3 MatrixCamera::GetScreenPos(Vector3 ndc)
 {
 	// スクリーン座標系へ変換
-	Vector3 screen = Matrix4x4Funk::Transform(ndc, m_viewportMatrix);
+	Vector3 screen = Transform(ndc, m_viewportMatrix);
 
 	return screen;
 }

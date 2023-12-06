@@ -120,6 +120,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="Class\MatrixCamera.cpp" />
     <ClCompile Include="Class\Vector\Vector2Float.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Quaternion.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C:\KamataEngine\DirectXGame\base\StringUtility.h" />
@@ -155,6 +156,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="Class\MatrixCamera.h" />
     <ClInclude Include="Class\Vector\Vector2Float.h" />
     <ClInclude Include="Class\Vector\VectorInt.h" />
+    <ClInclude Include="Quaternion.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

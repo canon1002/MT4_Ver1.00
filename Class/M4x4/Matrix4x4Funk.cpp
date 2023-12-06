@@ -4,7 +4,7 @@
 #include <cassert>
 
 /// 行列の和を返す関数
-Matrix4x4 Matrix4x4Funk::Add(Matrix4x4 m1, Matrix4x4 m2) {
+Matrix4x4 Add(Matrix4x4 m1, Matrix4x4 m2) {
 
 	return Matrix4x4{
 		m1.m[0][0] + m2.m[0][0],m1.m[0][1] + m2.m[0][1],m1.m[0][2] + m2.m[0][2],0,
@@ -16,7 +16,7 @@ Matrix4x4 Matrix4x4Funk::Add(Matrix4x4 m1, Matrix4x4 m2) {
 }
 
 /// 行列の差を返す関数
-Matrix4x4 Matrix4x4Funk::Subtract(Matrix4x4 m1, Matrix4x4 m2) {
+Matrix4x4 Subtract(Matrix4x4 m1, Matrix4x4 m2) {
 
 	return Matrix4x4{
 		m1.m[0][0] - m2.m[0][0],m1.m[0][1] - m2.m[0][1],m1.m[0][2] - m2.m[0][2],m1.m[0][3] - m2.m[0][3],
@@ -28,7 +28,7 @@ Matrix4x4 Matrix4x4Funk::Subtract(Matrix4x4 m1, Matrix4x4 m2) {
 }
 
 /// 行列の積を返す関数
-Matrix4x4 Matrix4x4Funk::Multiply(Matrix4x4 m1, Matrix4x4 m2) {
+Matrix4x4 Multiply(Matrix4x4 m1, Matrix4x4 m2) {
 
 	return Matrix4x4{
 	m1.m[0][0] * m2.m[0][0] + m1.m[0][1] * m2.m[1][0] + m1.m[0][2] * m2.m[2][0] + m1.m[0][3] * m2.m[3][0],
@@ -55,7 +55,7 @@ Matrix4x4 Matrix4x4Funk::Multiply(Matrix4x4 m1, Matrix4x4 m2) {
 }
 
 /// 逆行列を作成する
-Matrix4x4 Matrix4x4Funk::Inverse(Matrix4x4 m) {
+Matrix4x4 Inverse(Matrix4x4 m) {
 
 	float im = (
 		(m.m[0][0] * m.m[1][1] * m.m[2][2] * m.m[3][3]) + (m.m[0][0] * m.m[1][2] * m.m[2][3] * m.m[3][1]) + (m.m[0][0] * m.m[1][3] * m.m[2][1] * m.m[3][2]) -
@@ -111,7 +111,7 @@ Matrix4x4 Matrix4x4Funk::Inverse(Matrix4x4 m) {
 }
 
 /// 転置行列の計算
-Matrix4x4 Matrix4x4Funk::Transpose(Matrix4x4 m) {
+Matrix4x4 Transpose(Matrix4x4 m) {
 
 	return Matrix4x4{
 		m.m[0][0],m.m[1][0],m.m[2][0],m.m[3][0],
@@ -123,7 +123,7 @@ Matrix4x4 Matrix4x4Funk::Transpose(Matrix4x4 m) {
 }
 
 /// 単位行列の作成
-Matrix4x4 Matrix4x4Funk::MakeIdentity() {
+Matrix4x4 MakeIdentity() {
 
 	return Matrix4x4{
 		1,0,0,0,
@@ -136,7 +136,7 @@ Matrix4x4 Matrix4x4Funk::MakeIdentity() {
 
 
 /// 平行移動行列の作成
-Matrix4x4 Matrix4x4Funk::MakeTranslateMatrix(const Vector3 translate) {
+Matrix4x4 MakeTranslateMatrix(const Vector3 translate) {
 
 	return Matrix4x4{
 		1,0,0,0,
@@ -148,7 +148,7 @@ Matrix4x4 Matrix4x4Funk::MakeTranslateMatrix(const Vector3 translate) {
 }
 
 /// 拡大縮小行列の作成
-Matrix4x4 Matrix4x4Funk::MakeScaleMatrix(const Vector3 scale) {
+Matrix4x4 MakeScaleMatrix(const Vector3 scale) {
 
 	return Matrix4x4{
 		scale.x,0,0,0,
@@ -161,7 +161,7 @@ Matrix4x4 Matrix4x4Funk::MakeScaleMatrix(const Vector3 scale) {
 
 
 /// 回転行列の作成(X軸周り：YZ平面)
-Matrix4x4 Matrix4x4Funk::MakeRoatateXMatrix(float rad) {
+Matrix4x4 MakeRoatateXMatrix(float rad) {
 
 	return Matrix4x4{
 		1,0,0,0,
@@ -173,7 +173,7 @@ Matrix4x4 Matrix4x4Funk::MakeRoatateXMatrix(float rad) {
 }
 
 /// 回転行列の作成(Y軸周り：XZ平面)
-Matrix4x4 Matrix4x4Funk::MakeRoatateYMatrix(float rad) {
+Matrix4x4 MakeRoatateYMatrix(float rad) {
 
 	return Matrix4x4{
 		std::cos(rad),0,-std::sin(rad),0,
@@ -185,7 +185,7 @@ Matrix4x4 Matrix4x4Funk::MakeRoatateYMatrix(float rad) {
 }
 
 /// 回転行列の作成(Z軸周り：XY平面)
-Matrix4x4 Matrix4x4Funk::MakeRoatateZMatrix(float rad) {
+Matrix4x4 MakeRoatateZMatrix(float rad) {
 
 	return Matrix4x4{
 		std::cos(rad),std::sin(rad),0,0,
@@ -198,7 +198,7 @@ Matrix4x4 Matrix4x4Funk::MakeRoatateZMatrix(float rad) {
 
 
 /// 座標変換
-Vector3 Matrix4x4Funk::Transform(const Vector3& v, const Matrix4x4& m) {
+Vector3 Transform(const Vector3& v, const Matrix4x4& m) {
 	Vector3 result = {};
 	result.x = v.x * m.m[0][0] + v.y * m.m[1][0] + v.z * m.m[2][0] + 1.0f * m.m[3][0];
 	result.y = v.x * m.m[0][1] + v.y * m.m[1][1] + v.z * m.m[2][1] + 1.0f * m.m[3][1];
@@ -212,13 +212,13 @@ Vector3 Matrix4x4Funk::Transform(const Vector3& v, const Matrix4x4& m) {
 }
 
 /// アフィン行列の作成
-Matrix4x4 Matrix4x4Funk::MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate) {
+Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate) {
 
 	// 回転行列を作成
-	Matrix4x4 rotateXMatrix = Matrix4x4Funk::MakeRoatateXMatrix(rotate.x);
-	Matrix4x4 rotateYMatrix = Matrix4x4Funk::MakeRoatateYMatrix(rotate.y);
-	Matrix4x4 rotateZMatrix = Matrix4x4Funk::MakeRoatateZMatrix(rotate.z);
-	Matrix4x4 rotateXYZMatrix = Matrix4x4Funk::Multiply(rotateXMatrix, Matrix4x4Funk::Multiply(rotateYMatrix, rotateZMatrix));
+	Matrix4x4 rotateXMatrix = MakeRoatateXMatrix(rotate.x);
+	Matrix4x4 rotateYMatrix = MakeRoatateYMatrix(rotate.y);
+	Matrix4x4 rotateZMatrix = MakeRoatateZMatrix(rotate.z);
+	Matrix4x4 rotateXYZMatrix = Multiply(rotateXMatrix, Multiply(rotateYMatrix, rotateZMatrix));
 
 	return Matrix4x4{
 		scale.x * rotateXYZMatrix.m[0][0],	scale.x * rotateXYZMatrix.m[0][1],	scale.x * rotateXYZMatrix.m[0][2],0,
@@ -231,7 +231,7 @@ Matrix4x4 Matrix4x4Funk::MakeAffineMatrix(const Vector3& scale, const Vector3& r
 
 
 /// 透視投影行列の作成
-Matrix4x4 Matrix4x4Funk::MakePerspectiveMatrix(float fovY, float aspectRatio, float nearClip, float farClip) {
+Matrix4x4 MakePerspectiveMatrix(float fovY, float aspectRatio, float nearClip, float farClip) {
 
 	return Matrix4x4{
 	(1 / aspectRatio) * (1 / std::tan(fovY / 2)),0,0,0,
@@ -243,7 +243,7 @@ Matrix4x4 Matrix4x4Funk::MakePerspectiveMatrix(float fovY, float aspectRatio, fl
 }
 
 /// 正射影行列の作成
-Matrix4x4 Matrix4x4Funk::MakeOrthographicMatrix(float left, float top, float right, float bottom, float nearClip, float farClip) {
+Matrix4x4 MakeOrthographicMatrix(float left, float top, float right, float bottom, float nearClip, float farClip) {
 
 	return Matrix4x4{
 		2 / (right - left),0,0,0,
@@ -255,7 +255,7 @@ Matrix4x4 Matrix4x4Funk::MakeOrthographicMatrix(float left, float top, float rig
 }
 
 /// ビューポート変換行列の作成
-Matrix4x4 Matrix4x4Funk::MakeViewportMatrix(float left, float top, float width, float height, float minDepth, float maxDepth) {
+Matrix4x4 MakeViewportMatrix(float left, float top, float width, float height, float minDepth, float maxDepth) {
 
 	// minD <= maxD でなければ実行しない
 	assert(minDepth <= maxDepth);
@@ -268,7 +268,7 @@ Matrix4x4 Matrix4x4Funk::MakeViewportMatrix(float left, float top, float width, 
 
 }
 
-Matrix4x4 Matrix4x4Funk::MakeAxisAngle(Vector3 Axis, float Angle) {
+Matrix4x4 MakeAxisAngle(Vector3 Axis, float Angle) {
 
 	// 拡大縮小を行う Scale = S
   	float cosTheta = cosf(Angle);
@@ -313,7 +313,7 @@ Matrix4x4 Matrix4x4Funk::MakeAxisAngle(Vector3 Axis, float Angle) {
 
 }
 
-Matrix4x4 Matrix4x4Funk::DirectionToDirection(const Vector3& from, const Vector3& to) {
+Matrix4x4 DirectionToDirection(const Vector3& from, const Vector3& to) {
 	Matrix4x4 result = MakeIdentity();
 
 	// クロス積
@@ -354,7 +354,7 @@ Matrix4x4 Matrix4x4Funk::DirectionToDirection(const Vector3& from, const Vector3
 
 
 /// 4x4行列の数値表示
-void Matrix4x4Funk::MatrixScreenPrintf(int x, int y, Matrix4x4& matrix, const char* label) {
+void MatrixScreenPrintf(int x, int y, Matrix4x4& matrix, const char* label) {
 
 	// ラベルの表示
 	Novice::ScreenPrintf(x, y, "%s", label);
@@ -375,7 +375,7 @@ void Matrix4x4Funk::MatrixScreenPrintf(int x, int y, Matrix4x4& matrix, const ch
 
 /// 3次元ベクトルの数値表示
 	/// <summary>
-void Matrix4x4Funk::VectorScreenPrintf(int x, int y, Vector3& vector, const char* label) {
+void VectorScreenPrintf(int x, int y, Vector3& vector, const char* label) {
 
 	// ラベルの表示
 	Novice::ScreenPrintf(x, y, "%s", label);
