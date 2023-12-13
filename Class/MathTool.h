@@ -42,7 +42,7 @@ static float Length(const Vector2& v);
 /// </summary>
 /// <param name="v"></param>
 /// <returns></returns>
-Vector2 Nomalize(const Vector2& v);
+Vector2 Normalize(const Vector2& v);
 
 #pragma endregion
 
@@ -69,7 +69,7 @@ static float Length(const Vector3& v);
 /// </summary>
 /// <param name="v"></param>
 /// <returns></returns>
-Vector3 Nomalize(const Vector3& v);
+Vector3 Normalize(const Vector3& v);
 
 /// <summary>
 /// クロス積・外積

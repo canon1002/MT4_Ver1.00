@@ -57,7 +57,7 @@ float Length(const Vector2& v) {
 /// </summary>
 /// <param name="v"></param>
 /// <returns></returns>
-Vector2 Nomalize(const Vector2& v)
+Vector2 Normalize(const Vector2& v)
 {
 	Vector2 result;
 	result.x = v.x / Length(v);
@@ -126,7 +126,7 @@ float Length(const Vector3& v) {
 /// </summary>
 /// <param name="v"></param>
 /// <returns></returns>
-Vector3 Nomalize(const Vector3& v)
+Vector3 Normalize(const Vector3& v)
 {
 	Vector3 result;
 	result.x = v.x / Length(v);
@@ -172,7 +172,7 @@ float Dot(const Vector3& v1, const Vector3& v2)
 /// <returns></returns>
 Vector3 Project(const Vector3& v1, const Vector3& v2)
 {
-	Vector3 result = Scalar(Dot(v1, Nomalize(v2)), Nomalize(v2));
+	Vector3 result = Scalar(Dot(v1, Normalize(v2)), Normalize(v2));
 
 	return result;
 }
@@ -310,7 +310,7 @@ bool IsCollision(const Segment& s, const Triangle& tr) {
 
 	Plane plane{};
 	plane.normal =
-		Nomalize(
+		Normalize(
 			Cross(
 				Subtract(tr.vertices[1], tr.vertices[0]),
 				Subtract(tr.vertices[2], tr.vertices[1])
@@ -364,7 +364,7 @@ bool IsCollision(const Ray& r, const Triangle& tr) {
 	/// 3点で構成される平面を求める
 	// ベクトルv1(b-a),v2(c-b)を求める
 	// クロス積(v1*v2)により法線nを算出(正規化を忘れないこと)
-	plane.normal = Nomalize(
+	plane.normal = Normalize(
 		Cross(Subtract(tr.vertices[1], tr.vertices[0]),
 			Subtract(tr.vertices[2], tr.vertices[1]))
 	);
@@ -417,7 +417,7 @@ bool IsCollision(const Line& l, const Triangle& tr) {
 	/// 3点で構成される平面を求める
 	// ベクトルv1(b-a),v2(c-b)を求める
 	// クロス積(v1*v2)により法線nを算出(正規化を忘れないこと)
-	plane.normal = Nomalize(
+	plane.normal = Normalize(
 		Cross(Subtract(tr.vertices[1], tr.vertices[0]),
 			Subtract(tr.vertices[2], tr.vertices[1]))
 	);
@@ -695,7 +695,7 @@ void DrawPlane(const Plane& plane,
 
 	Vector3 center = Scalar(plane.distance, plane.normal);		// 1
 	Vector3 perpendiculars[4];
-	perpendiculars[0] = Nomalize(Perpendicular(plane.normal));	// 2
+	perpendiculars[0] = Normalize(Perpendicular(plane.normal));	// 2
 	perpendiculars[1] = { -perpendiculars[0].x,-perpendiculars[0].y,-perpendiculars[0].z };	// 3
 	perpendiculars[2] = Cross(plane.normal, perpendiculars[0]);	// 4
 	perpendiculars[3] = { -perpendiculars[2].x,-perpendiculars[2].y,-perpendiculars[2].z };	// 5

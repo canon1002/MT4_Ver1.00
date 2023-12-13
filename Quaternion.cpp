@@ -49,6 +49,39 @@ float Norm(Quaternion q) {
 	};
 }
 
+// 任意回転軸を表すQuaternionの作成
+Quaternion MakeRotateAxisAngleQuaternion(const Vector3& axis, float angle) {
+	Quaternion result;
+	result.x = axis.x * sinf(angle / 2.0f);
+	result.y = axis.y * sinf(angle / 2.0f);
+	result.z = axis.z * sinf(angle / 2.0f);
+	result.w = cosf(angle / 2.0f);
+	return result;
+}
+
+// ベクトルをQuaternionで回転させた結果のベクトルを求める
+Vector3 RotateVector(const Vector3& v, const Quaternion& q) {
+	Quaternion r = { v.x,v.y,v.z,0 };
+	Quaternion rotate = Multiply(Multiply(q, r), Inverse(q));
+	Vector3 result = { rotate.x,rotate.y, rotate.z };
+	return result;
+}
+
+// Quaternionから回転行列を求める
+Matrix4x4 MakeRotateMatrix(const Quaternion& q) {
+	float x = q.x, y = q.y, z = q.z, w = q.w;
+	float xx = x * x, yy = y * y, zz = z * z, ww = w * w;
+
+	Matrix4x4 result{
+		ww + xx - yy - zz,			2 * ((x * y) + (w * z)),	2 * ((x * z) - (w * y)),	0,
+		2 * ((x * y) - (w * z)),	ww - xx + yy - zz,			2 * ((y * z) + (w * x)),	0,
+		2 * ((x * z) + (w * y)),	2 * ((y * z) - (w * x)),	ww - xx - yy + zz,			0,
+		0,							0,							0,							1
+	};
+
+	return result;
+}
+
 
 void QuaternionScreenPrintf(int x, int y, Quaternion& vector, const char* label) {
 
