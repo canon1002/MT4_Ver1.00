@@ -95,3 +95,34 @@ void QuaternionScreenPrintf(int x, int y, Quaternion& vector, const char* label)
 	Novice::ScreenPrintf(x + 240, y, "%6.02f", vector.w);
 
 }
+
+// 球面線形補間
+Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t) {
+	float dot = QDot(q0, q1);
+	Quaternion q0_ = q0;
+	Quaternion q1_ = q1;
+	if (dot < 0) {
+		q0_ *= -1;
+		dot *= -1;
+	}
+	
+	// なす角を求める
+	float theta = std::acos(dot);
+
+	// thetaとsinを使って補間係数scaler0,scaler1を求める
+	float scaler0 = std::sin((1.0f - t) * theta) / std::sin(theta);
+	float scaler1 = std::sin((t) * theta) / std::sin(theta);
+	
+	Quaternion result;
+	result.x = scaler0 * q0.x + scaler1 * q1.x;
+	result.y = scaler0 * q0.y + scaler1 * q1.y;
+	result.z = scaler0 * q0.z + scaler1 * q1.z;
+	result.w = scaler0 * q0.w + scaler1 * q1.w;
+	
+	return result;
+
+}
+
+float QDot(const Quaternion& q0, const Quaternion& q1) {
+	return float{ q0.x * q1.x + q0.y * q1.y + q0.z * q1.z + q0.w * q1.w };
+}

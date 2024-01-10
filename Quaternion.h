@@ -5,6 +5,24 @@
 struct Quaternion
 {
 	float x, y, z, w;
+
+	Quaternion operator*=(float f) {
+		Quaternion q0{};
+		q0.x = this->x * f;
+		q0.y = this->y * f;
+		q0.z = this->z * f;
+		q0.w = this->w * f;
+		return q0;
+	}
+
+	Quaternion operator*(Quaternion other) {
+		Quaternion q0{};
+		q0.x = this->x * other.x;
+		q0.y = this->y * other.y;
+		q0.z = this->z * other.z;
+		q0.w = this->w * other.w;
+		return q0;
+	}
 };
 
 Quaternion Multiply(Quaternion q1, Quaternion q2);
@@ -13,6 +31,8 @@ Quaternion IdentityQuaternion();
 Quaternion Normalize(Quaternion q);
 Quaternion Conjugate(Quaternion q);
 float Norm(Quaternion q);
+Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t);
+float QDot(const Quaternion& q0, const Quaternion& q1);
 
 // 任意回転軸を表すQuaternionの作成
 Quaternion MakeRotateAxisAngleQuaternion(const Vector3& axis, float angle);
